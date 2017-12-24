@@ -1,4 +1,4 @@
-package udp;
+package src.udp;
 
 import java.io.IOException;
 import java.net.*;
