@@ -1,0 +1,15 @@
+server 用来做服务器
+
+clientＢ　用来做从属服务
+
+client   用来做主连接
+
+流程示意图
+
+  client.req------>server
+  clientＢ.res------>client
+  client.res------->clientＢ
+  
+  
+
+
