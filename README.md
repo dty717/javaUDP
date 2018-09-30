@@ -104,7 +104,6 @@ Please see [https://github.com/beto-rodriguez/Live-Charts/releases](https://gith
 * Pull request are well received
 
 You can also buy me a beer
-
    
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=J86WDLSS9PWGL)
 
