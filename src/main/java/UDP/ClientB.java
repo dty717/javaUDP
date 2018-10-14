@@ -49,6 +49,7 @@ public class ClientB {
                 }
             }
         });
+        t1.start();
         for (int i = 0; i < 1000; i++) {
             if(client.isConnected){
                 client.keepConnect();
@@ -88,7 +89,7 @@ public class ClientB {
                 try {
                     socket.send(pacSend);
                     buf=new byte[1024];
-                    pacSend = new DatagramPacket(buf, 1024, hostAddress, hostPort);
+                    pacSend = new DatagramPacket(buf, 1024, connect_target_address, connect_target_port);
                     socket.receive(pacSend);
                     response(pacSend);
                 } catch (IOException e) {
@@ -98,9 +99,10 @@ public class ClientB {
                 }
             }else {
                 try {
-                    Thread.sleep(100);
-                    pacSend = new DatagramPacket(new byte[]{0}, 1, hostAddress, hostPort);
+                    Thread.sleep(500);
+                    pacSend = new DatagramPacket(new byte[]{0}, 1, connect_target_address, connect_target_port);
                     socket.send(pacSend);
+                    System.out.print(".");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     isConnected=false;
@@ -161,7 +163,7 @@ public class ClientB {
             socket.disconnect();
             return false;
         }
-
+        isConnected=true;
         return true;
     }
     SendReq[]sendReqs=new SendReq[128];
