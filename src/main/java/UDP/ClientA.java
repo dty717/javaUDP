@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.*;
 
 public class ClientA {
+    /*
     private DatagramSocket socket;
     private InetAddress address;
 
@@ -19,12 +20,9 @@ public class ClientA {
             e.printStackTrace();
         }
     }
+    */
 
-    public static void main(String[] args) {
-        Client client=new Client();
-        String msg=client.sendEcho("sa");
-        System.out.println(msg);
-    }
+    /*
     public String sendEcho(String msg) {
         buf = msg.getBytes();
         DatagramPacket packet
@@ -48,4 +46,5 @@ public class ClientA {
     public void close() {
         socket.close();
     }
+    */
 }

@@ -1,13 +1,14 @@
 package UDP;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
+//import org.jsoup.Connection;
+//import org.jsoup.Jsoup;
 
-import java.net.DatagramPacket;
+import java.io.IOException;
+import java.net.*;
 import java.util.Arrays;
 
 public class ClientB {
-    private java.net.DatagramSocket socket;
+    private DatagramSocket socket;
     private java.net.InetAddress address;
     private byte[] buf;
     private java.net.DatagramSocket nextSocket;
@@ -15,85 +16,106 @@ public class ClientB {
     private int nextPort;
 
     public ClientB() {
+
         try { socket = new java.net.DatagramSocket();
             address = java.net.InetAddress.getByName(InetAddress);
+            socket.setSoTimeout(800);
         }
         catch (java.net.SocketException e) {
             e.printStackTrace();
         } catch (java.net.UnknownHostException e) {
             e.printStackTrace();
         }
+        buf=new byte[1024];
     }
 
     public static void main(String[] args) {
         if(args.length>1) {
-
             InetAddress = args[0];
             port = Integer.parseInt(args[1]);
-        }else {
-            InetAddress = "180.102.218.126";
-            port = Integer.parseInt("7104");
         }
+
         ClientB client = new ClientB();
-        String msg = client.sendEcho("From b");
+        for (int i = 0; i < 1000; i++) {
+            String msg = client.sendEcho("From b");
+            System.out.println(msg);
+        }
+
         client.close();
-        System.out.println(msg);
     }
-    static String InetAddress;
-    static int port;
+    static String InetAddress="106.14.118.135";
+    static int port=17000;
 
     public String sendEcho(String msg)
     {
-        buf = msg.getBytes();
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+        byte[]buf_send = msg.getBytes();
+        DatagramPacket packet = new DatagramPacket(buf_send, buf_send.length, address, port);
+        DatagramPacket pac = new DatagramPacket(buf, buf.length, address, port);
+
         try
         {
             socket.send(packet);
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(packet.getAddress() + "\n" + packet.getPort());
         try {
+            socket.receive(pac);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String received = new String(pac.getData(),pac.getOffset(),pac.getLength());
+        handleReceive(received);
+        try {
+            if(enableSend)
             while (true) {
-                buf=new byte[1024];
-                packet = new DatagramPacket(buf, buf.length);
-                socket.receive(packet);
-
-                String received = new String(packet.getData());
-                System.out.println("debug:dty "+received);
-                if(received.startsWith("http")){
-                    Connection con= Jsoup.connect(received);
-                    buf = (con.get().head().toString()).getBytes();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }else
-                    buf=("OK").getBytes();
-                if(buf.length>2048){
-                    buf= Arrays.copyOf(buf,200);
-                }
-                System.out.println(new String(buf));
-
-                packet = new DatagramPacket(buf, buf.length, address, port);
-
+                //buf=new byte[1024];
+                packet = new DatagramPacket(buf, buf.length, java.net.InetAddress.getByName(AIp),APort);
                 socket.send(packet);
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(true)
+                    break;
+                
+                socket.receive(packet);
+                handleReceiveA(packet);
             }
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            nextSocket = new java.net.DatagramSocket();
-            nextAddress = packet.getAddress();
-            nextPort = packet.getPort();
-        } catch (java.net.SocketException e) {
+        } catch (SocketTimeoutException s){
+            socket.close();
+            return null;
+        }catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        String received = new String(packet.getData(), 0, packet.getLength());
+        //received = new String(packet.getData(), 0, packet.getLength());
         return received;
+    }
+
+    private void handleReceiveA(DatagramPacket pac) {
+        System.out.println("receive A:"+new String(pac.getData(),pac.getOffset(),pac.getLength()));
+    }
+
+    private boolean enableSend;
+    private String AIp;
+    private int APort;
+
+    private void handleReceive(String received) {
+        int x=received.lastIndexOf("_");
+        if(x!=-1&&x<received.length()-1){
+            received=received.substring(x+1);
+            String[]tem=received.split(":");
+            if(tem.length==2){
+                enableSend=true;
+                AIp=tem[0];
+                APort= Integer.parseInt(tem[1]);
+                buf="Hi A".getBytes();
+                return;
+                //System.out.println(AIp+":"+APort);
+            }
+        }
+        enableSend=false;
     }
 
     public void close() {

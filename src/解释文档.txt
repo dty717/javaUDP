@@ -1,15 +1,25 @@
 server 用来做服务器
 
-clientＢ　用来做从属服务
+clientB　用来做从属服务
 
-client   用来做主连接
+clientA   用来做主连接
 
 流程示意图
 
-  client.req------>server
-  clientＢ.res------>client
-  client.res------->clientＢ
-  
-  
+  clientA.req------>server
+  clientB.res------>client
+  clientA.res------>clientB
 
 
+update:2018.10.11
+	A---->server(interval)
+
+	A(port)
+
+	server<---->B: A(port)
+
+	B(client)--->request(UDP)
+
+	A(response)---->()
+
+	B-->(tcp/http)--->udp-->server
