@@ -12,17 +12,17 @@ import java.util.Scanner;
 
 public class Client {
     private DatagramSocket socket;
-    private InetAddress address;
+    private InetAddress hostAddress;
     private byte[] buf;
     private DatagramSocket nextSocket;
     private InetAddress nextAddress;
     private int nextPort;
-
+    private String hostString="106.14.118.135";
     public Client() {
         try {
             this.socket = new DatagramSocket();
             this.socket.setSoTimeout(5000);
-            this.address = InetAddress.getByName("106.14.118.135");
+            this.hostAddress = InetAddress.getByName(hostString);
         } catch (SocketException var2) {
             var2.printStackTrace();
         } catch (UnknownHostException var3) {
@@ -53,9 +53,10 @@ public class Client {
     String received = "";
     boolean flag_continue = true;
 
+    private int hostPort=17000;
     public String sendEcho(String msg) {
         this.buf = msg.getBytes();
-        DatagramPacket packet = new DatagramPacket(this.buf, this.buf.length, this.address, 17000);
+        DatagramPacket packet = new DatagramPacket(this.buf, this.buf.length, this.hostAddress, hostPort);
         DatagramPacket pac = new DatagramPacket(this.buf, this.buf.length);
 
         try {
@@ -66,7 +67,7 @@ public class Client {
                     this.buf=new byte[1024];
                     pac = new DatagramPacket(this.buf, this.buf.length);
                     socket.receive(pac);
-                    System.err.println(1);
+                    //System.err.println(1);
                     break;
                 }else
                     Thread.sleep(300);
@@ -81,16 +82,15 @@ public class Client {
             e.printStackTrace();
         }
 
-
-
-        handleReceive(pac);
+        //handleReceive(pac);
+        flag_continue=true;
         if (flag_continue)
             while (true) {
                 //buf=(received).getBytes();
                 handleReceive(packet);
                 pac = new DatagramPacket(buf, buf.length, packet.getAddress(), packet.getPort());
                 try {
-                    this.socket.send(pac);
+                    socket.send(pac);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -153,10 +153,12 @@ public class Client {
 
     private void handleReceive(DatagramPacket packet) {
         byte[]rec=packet.getData();
+        /*
         if (rec[0] == 1 && rec[1] == 1) {
             flag_continue = true;
         } else
             flag_continue = false;
+        */
         received = new String(rec,packet.getOffset(),packet.getLength());
         System.out.println("From "+packet.getAddress().getHostName()+": "+received);
         buf = received.getBytes();

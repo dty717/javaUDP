@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="553db5ec-56a9-41f9-b804-b225c1cc3c9c" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JavaUDP_dty717.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaUDP_dty717.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UDP/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UDP/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/UDP/ClientA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UDP/ClientA.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UDP/ClientB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UDP/ClientB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/UDP/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UDP/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/解释文档.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/解释文档.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/UDP/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/UDP/Client.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/UDP/ClientA.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/UDP/ClientA.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/UDP/ClientB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/UDP/ClientB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/UDP/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/UDP/Server.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,33 +23,37 @@
     <session id="-431211056">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.138" value="1" />
+          <entry key="project.open.time.191" value="1" />
           <entry key="project.open.time.260" value="1" />
           <entry key="project.open.time.50" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1552" />
+          <entry key="java" value="2753" />
           <entry key="txt" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1552" />
+          <entry key="JAVA" value="2753" />
           <entry key="PLAIN_TEXT" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="10" />
+          <entry key="java" value="11" />
+          <entry key="txt" value="1" />
           <entry key="xml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="10" />
+          <entry key="JAVA" value="11" />
+          <entry key="PLAIN_TEXT" value="1" />
           <entry key="XML" value="1" />
         </counts>
       </usages-collector>
@@ -67,11 +68,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/UDP/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="67" column="38" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="38" />
+            <state relative-caret-position="295">
+              <caret line="92" column="20" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#5303#5304#0" expanded="true" />
+                <element signature="e#5338#5339#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/解释文档.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -79,10 +91,37 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/UDP/ClientB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="88" column="29" selection-start-line="88" selection-start-column="14" selection-end-line="88" selection-end-column="29" />
+            <state relative-caret-position="979">
+              <caret line="73" column="10" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="10" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3390#3391#0" expanded="true" />
+                <element signature="e#3455#3456#0" expanded="true" />
+                <element signature="e#6346#6347#0" expanded="true" />
+                <element signature="e#6376#6377#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bean/SendReq.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="7" column="66" selection-start-line="7" selection-start-column="66" selection-end-line="7" selection-end-column="66" />
+              <folding>
+                <element signature="e#155#156#0" expanded="true" />
+                <element signature="e#186#187#0" expanded="true" />
+                <element signature="e#231#232#0" expanded="true" />
+                <element signature="e#271#272#0" expanded="true" />
+                <element signature="e#305#306#0" expanded="true" />
+                <element signature="e#335#336#0" expanded="true" />
+                <element signature="e#381#382#0" expanded="true" />
+                <element signature="e#419#420#0" expanded="true" />
+                <element signature="e#453#454#0" expanded="true" />
+                <element signature="e#483#484#0" expanded="true" />
+                <element signature="e#529#530#0" expanded="true" />
+                <element signature="e#567#568#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,13 +130,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/UDP/ClientA.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-200">
+            <state relative-caret-position="299">
               <caret line="23" selection-start-line="23" selection-end-line="23" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -117,6 +163,7 @@
         <option value="$PROJECT_DIR$/src/解释文档.txt" />
         <option value="$PROJECT_DIR$/src/main/java/UDP/Server.java" />
         <option value="$PROJECT_DIR$/src/main/java/UDP/ClientA.java" />
+        <option value="$PROJECT_DIR$/src/main/java/bean/SendReq.java" />
         <option value="$PROJECT_DIR$/src/main/java/UDP/ClientB.java" />
         <option value="$PROJECT_DIR$/src/main/java/UDP/Client.java" />
       </list>
@@ -128,7 +175,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="243" />
     <option name="y" value="19" />
     <option name="width" value="1400" />
@@ -140,6 +187,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -202,15 +250,14 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539487120597" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539518953791" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15524034" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -350,17 +397,19 @@
       <updated>1514110009355</updated>
       <workItem from="1539260538668" duration="12330000" />
       <workItem from="1539275378110" duration="2197000" />
-      <workItem from="1539481015770" duration="4089000" />
+      <workItem from="1539481015770" duration="4222000" />
+      <workItem from="1539502432007" duration="8436000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18616000" />
+    <option name="totallyTimeSpent" value="27185000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1050" extended-state="7" />
+    <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18508583" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20010729" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -370,7 +419,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4914163" weight="0.32844242" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39954853" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.39954853" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -413,27 +462,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/UDP/ClientB.java</url>
-          <line>66</line>
+          <line>142</line>
           <properties />
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/UDP/ClientB.java</url>
-          <line>85</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/UDP/ClientB.java</url>
-          <line>72</line>
-          <properties />
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/UDP/ClientB.java</url>
-          <line>71</line>
-          <properties />
-          <option name="timeStamp" value="25" />
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -460,13 +491,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="782">
           <caret line="45" column="42" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/解释文档.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
@@ -530,29 +554,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/解释文档.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bean/SendReq.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" column="66" selection-start-line="7" selection-start-column="66" selection-end-line="7" selection-end-column="66" />
+          <folding>
+            <element signature="e#155#156#0" expanded="true" />
+            <element signature="e#186#187#0" expanded="true" />
+            <element signature="e#231#232#0" expanded="true" />
+            <element signature="e#271#272#0" expanded="true" />
+            <element signature="e#305#306#0" expanded="true" />
+            <element signature="e#335#336#0" expanded="true" />
+            <element signature="e#381#382#0" expanded="true" />
+            <element signature="e#419#420#0" expanded="true" />
+            <element signature="e#453#454#0" expanded="true" />
+            <element signature="e#483#484#0" expanded="true" />
+            <element signature="e#529#530#0" expanded="true" />
+            <element signature="e#567#568#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/UDP/ClientA.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-200">
+        <state relative-caret-position="299">
           <caret line="23" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/UDP/ClientB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="88" column="29" selection-start-line="88" selection-start-column="14" selection-end-line="88" selection-end-column="29" />
+        <state relative-caret-position="979">
+          <caret line="73" column="10" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#3390#3391#0" expanded="true" />
+            <element signature="e#3455#3456#0" expanded="true" />
+            <element signature="e#6346#6347#0" expanded="true" />
+            <element signature="e#6376#6377#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/UDP/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="67" column="38" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="38" />
+        <state relative-caret-position="295">
+          <caret line="92" column="20" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#5303#5304#0" expanded="true" />
+            <element signature="e#5338#5339#0" expanded="true" />
           </folding>
         </state>
       </provider>
