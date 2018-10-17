@@ -8,6 +8,7 @@ package UDP;
 import java.io.IOException;
 import java.net.*;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Client {
@@ -87,8 +88,8 @@ public class Client {
         if (flag_continue)
             while (true) {
                 //buf=(received).getBytes();
-                handleReceive(packet);
-                pac = new DatagramPacket(buf, buf.length, packet.getAddress(), packet.getPort());
+                buf=handleReceive(pac);
+                pac.setData(buf);
                 try {
                     socket.send(pac);
                 } catch (IOException e) {
@@ -151,7 +152,7 @@ public class Client {
         return received;
     }
 
-    private void handleReceive(DatagramPacket packet) {
+    private byte[] handleReceive(DatagramPacket packet) {
         byte[]rec=packet.getData();
         /*
         if (rec[0] == 1 && rec[1] == 1) {
@@ -161,7 +162,7 @@ public class Client {
         */
         received = new String(rec,packet.getOffset(),packet.getLength());
         System.out.println("From "+packet.getAddress().getHostName()+": "+received);
-        buf = received.getBytes();
+        return new Date().toString().getBytes();
     }
 
 
