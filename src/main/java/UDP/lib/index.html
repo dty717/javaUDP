@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <script src="./js/common/jquery-3.3.1.min.js"></script>
+    <style>
+
+        #workSpace {
+            border: solid;
+            float: left;
+            height: 100%;
+            width: 300px;
+            background: lightseagreen;
+        }
+
+        #editor {
+            height: calc(100vh - 70px);;
+            float: right;
+            width: calc(100% - 320px);
+            margin-right: 10px;
+            margin-top: 0;
+            
+        }
+    </style>
+<body>
+
+<div>
+    <div id="workSpace">
+        <div>
+            <button onclick="save()">save</button>
+            <button onclick="newFile()">new</button>
+            <button onclick="reload()">reload</button>
+            <button onclick="run()">run</button>
+        </div>
+        <div>
+            <button onclick="newProject()">新建smm工程</button>
+            <!--<button onclick="generateBuildAndRun()">new Ant</button>-->
+            <button onclick="generateVS()">new VS</button>
+            <button onclick="generateMybatis()">new Mybatis</button>
+        </div>
+        <div>
+            <button onclick="gitPush()">提交github</button>
+            <button onclick="generateKeil_CMD()">keil_CMD</button>
+            <button onclick="generateArduino_CMD()">arduino_CMD</button>
+        </div>
+        <div>
+            <button onclick="fileLink(this)">文件链接</button>
+            <button onclick="tip()">提示</button>
+            <button onclick="calculateSimple()">化简</button>
+        </div>
+        <div>
+            <input id="commonInput"/>
+            <button onclick="search()">search</button>
+            <button onclick="goBack()"><-</button>
+            <button onclick="tryIt()">?</button>
+        </div>
+        <div>
+            <button onclick="analyzeForJava()">analyzeForJava</button>
+            <button onclick="goBack()"><-</button>
+            <button onclick="tryIt()">try</button>
+        </div>
+        <div id="tips" onclick="hide(this)">
+        
+        </div>
+        
+        <div id="fileTree">
+
+        </div>
+
+    </div>
+
+    <!--
+        工作区间
+    -->
+    <div>
+        <div>
+            <button onclick="toggle(this)">&gt;&gt;&gt;</button>
+            <button style="display:none" onclick="getSet()">get and set</button>
+            <button style="display:none" onclick="replaceURL()">replace url</button>
+            <button style="display:none" onclick="FirstlowCase()">First lowCase</button>
+            <button style="display:none" onclick="FirstlowCaseNewField()">FirstlowCase New Field</button>
+            <button style="display:none" onclick="CreateFor()">Create For clause</button>
+            <button style="display:none" onclick="CreateConsole()">console</button>
+            <button style="display:none" onclick="CreateTag()">Create tag</button>
+        </div>
+        <pre id="editor"></pre>
+    </div>
+</div>
+<script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="src-noconflict/ext-modelist.js"></script>
+<script src="src-noconflict/ext-language_tools.js"></script>
+<script>
+    function hide(obj){
+        obj.innerHTML="";
+    }
+    
+    var tips=[];
+    function hasRelation(key,target){
+        for(var i=0;i<key.length;i++){
+            if(!target.includes(key[i].toUpperCase())&&!target.includes(key[i].toLowerCase())){
+                return false; 
+            }
+        }
+        return true;
+    }
+    function CreateTag(){
+        var selected=editor.getSelectedText();
+        if(selected==""||(selected==undefined)){
+            return;
+        }
+        editor.session.replace(editor.selection.getRange(), "<"+selected+">"+"</"+selected+">"); 
+    }
+    function calculateSimple(){
+        
+        var selected=editor.getSelectedText();
+        
+        selected=selected.replace(/\s/g, "");
+
+
+        $.ajax({
+            url: "calculateSimple",
+            method: "GET",
+            data: {math: selected},
+            contentType: "text/plain",
+            success: (function (msg) {
+                editor.session.insert({row:editor.getCursorPosition().row, column:editor.getCursorPosition().column}, msg);
+            })
+        })
+
+    }
+    function tip(){
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")&&tips!=null){
+            s=s.trim().toLowerCase();
+            var str="";
+            for(var i=0;i<tips.length;i++){
+                var end=tips[i].indexOf("(");
+                var tem=tips[i].substring(0,end);
+                var start=tem.lastIndexOf(".");
+                if(hasRelation(s,tips[i].substring(start+1,end+1))){
+                    end=tips[i].indexOf(")");
+                    tem=tips[i].substring(start+1,end+1);
+                    str+=tem.replace(/java.lang./g,"")+"<br>"
+                }
+            }
+            document.getElementById("tips").innerHTML=str;
+            return;
+        }
+        var selected=editor.getSelectedText();
+        if(selected.length>1){
+            selected=selected[0].toUpperCase()+selected.substring(1);
+        }
+        $.ajax({
+            url: "tip",
+            method: "GET",
+            data: {tip: selected},
+            contentType: "text/plain",
+            success: (function (msg) {
+                tips=msg;
+                var str=""
+                for(var i=0;i<tips.length;i++){
+                    var end=tips[i].indexOf("(");
+                    var tem=tips[i].substring(0,end);
+                    var ss=tem.split(" ");
+                    var start=tem.lastIndexOf(".");
+                    end=tips[i].indexOf(")");
+                    tem=tips[i].substring(start+1,end+1);
+                    if(ss.length>1){
+                        str+=(ss[ss.length-2]+" "+tem).replace(/java.lang./g,"")+"<br>"
+                    }else{
+                        str+=tem.replace(/java.lang./g,"")+"<br>"
+                    }
+                }
+                document.getElementById("tips").innerHTML=str;
+            })
+        })
+    }
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/eclipse");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setFontSize(15) // will set font-size: 10px
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+    });
+    editor.commands.addCommand({
+        name: 'saveFile',
+        bindKey: {
+            win: 'Ctrl-S',
+            mac: 'Command-S',
+            sender: 'editor|cli'
+        },
+        exec: save
+    });
+    // dictory
+        //file  -->path(not change)
+        // path -->path(change)
+    function showFileList(_path) {
+        $.ajax({
+            url: "getFileList",
+            method: "GET",
+            data: {path: _path.replace(/\\/g, '/')},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: (function (msg) {
+                //console.log(msg, msg.type)
+                if (msg.type == 'error'){
+                    return;
+                }
+                else if (msg.type == 'file') {
+
+                    showFile(path+currentFile);
+                    return;
+                } else if (msg.type == 'directory') {
+                    //console.log(msg)
+                    if(isPathBefore){
+                        isPathBefore=false;
+                    }else
+                        pathBefore.push(path);
+                    if(currentFile!=undefined&&(currentFile!=""))
+                        path=path+currentFile+"\\"
+                    $("#fileTree").empty();
+                    for (var i = 0; i < msg.list.length; i++) {
+                        $("#fileTree").append('<li onclick="clickShowFile(this)">' + msg.list[i] + '</li>');
+                    }
+                }
+            }),
+        });
+    }
+    var path = new URL(window.location.href).searchParams.get("path");
+    if(path==undefined)
+        path="C:/Users/xqy/Desktop/新建工程/关于网站设计开发-2/代码/";
+    var pathBefore=[];
+    var isPathBefore=true;
+    var pathNext="";
+    var currentFile="";
+    showFileList(path);
+    function  clickShowFile(obj) {
+        //console.log(obj)
+        currentFile=obj.innerText;
+        showFileList(path+currentFile);
+    }
+    function showFile(_path) {
+        $.ajax({
+            url: "getFile",
+            method: "GET",
+            data: {path: _path.replace(/\\/g, '/')},
+            contentType: "text/plain",
+            success: (function (msg) {
+                var mode = getModeByFileExtension(currentFile);
+                editor.getSession().setMode(mode);
+                editor.setValue(msg);
+            })
+        })
+    }
+        function getModeByFileExtension(o){var s = ace.require("ace/ext/modelist");return s.getModeForPath(o).mode;}
+
+    function save() {
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")){
+            s=s.trim().toLowerCase();
+            if(s=="gbk"){
+                
+            }else{
+                s="";
+            }
+        }else{
+            s="";
+        }
+        $.ajax({
+            url: "saveFile",
+            method: "POST",
+            data: {file: editor.getValue(),path:path+currentFile,charset:s},
+            success: (function (msg) {
+                //console.log(msg);
+            })
+        })
+    }
+
+    function gitPush() {
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")){
+            s=s.trim();
+            
+        }else{
+            s="by dty717";
+        }
+        $.ajax({
+            url: "gitPush",
+            method: "POST",
+            data: {msg: s,path:path+currentFile},
+            success: (function (msg) {
+                //console.log(msg);
+            })
+        })
+    }
+    function reload() {
+        $.ajax({
+            url: "reload",
+            method: "GET",
+            data: {path: path+currentFile},
+            contentType: "text/plain",
+            success: (function (msg) {
+                editor.setValue(msg);
+                save();
+            })
+        })
+    }
+    function run() {
+        $.ajax({
+            url: "run",
+            method: "GET",
+            data: {path: path+currentFile},
+            contentType: "text/plain",
+            success: (function (msg) {
+                //editor.setValue(msg);
+                //save();
+            })
+        })
+    }
+    function generateKeil_CMD(){
+        $.ajax({
+            url: "generateKeil_CMD",
+            method: "GET",
+            data: {path: path},
+            contentType: "text/plain",
+            success: (function (msg) {
+                //editor.setValue(msg);
+                //save();
+            })
+        })
+    }
+    function generateArduino_CMD(){
+        $.ajax({
+            url: "generateArduino_CMD",
+            method: "GET",
+            data: {path: path},
+            contentType: "text/plain",
+            success: (function (msg) {
+                editor.setValue(msg);
+                //save();
+            })
+        })
+    }
+    
+    function generateBuildAndRun() {
+        $.ajax({
+            url: "generateBuildAndRun",
+            method: "GET",
+            data: {path: path+currentFile},
+            contentType: "text/plain",
+            success: (function (msg) {
+                //editor.setValue(msg);
+                //save();
+            })
+        })
+    }
+    //
+    function newProject() {
+        var data={};
+        data.path=path+currentFile;
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s!="")){
+            data.artifactId=s.trim();
+        }
+        $.ajax({
+            url: "newProject",
+            method: "GET",
+            data: data,
+            contentType: "text/plain",
+            success: (function (msg) {
+                //editor.setValue(msg);
+                //save();
+            })
+        })
+    }
+    function newFile() {
+        var isFile=false;
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s!="")){
+            if(s.indexOf(".")!=-1){
+                isFile=true;
+            }
+            s=s.trim();
+            
+        }else{
+            return;
+        }
+        if(isFile){
+            $.ajax({
+                url: "newFile",
+                method: "GET",
+                data: {path:path,name:s},
+                contentType: "text/plain",
+                success: (function (msg) {
+                    //editor.setValue(msg);
+                    //save();
+                })
+            })    
+        }else{
+            $.ajax({
+            url: "newDir",
+            method: "GET",
+            data: {path:path,name:s},
+            contentType: "text/plain",
+            success: (function (msg) {
+                
+            })
+        })
+        }
+        
+    }
+    function search(){
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")){
+            s=s.trim();
+            if(s=="path"){
+                s=eval(s);
+                s=s.replace(/\\/g, '/');
+                if(s[s.length-1]!='/'){
+                    s+='/';
+                }
+                document.getElementById("commonInput").value=s;
+
+            }else{
+                document.getElementById("commonInput").value=eval(s);
+            }
+            
+        }
+    }
+    function CreateConsole(){
+        var tem;
+        if(currentFile.includes(".html")||currentFile.includes(".js")||currentFile.includes(".htm")){
+            tem="console.log();";
+        }else if(currentFile.includes(".cs")){
+            tem="Console.WriteLine();";
+        }else if(currentFile.includes(".java")){
+            tem="System.out.println();";
+        }else if(currentFile.includes(".c")||currentFile.includes(".cpp")){
+            tem="printf();";
+        }else if(currentFile.includes(".bat")){
+            tem="rem ";
+        }
+        editor.session.insert({row:editor.getCursorPosition().row, column:editor.getCursorPosition().column}, tem);
+
+    }
+    function CreateFor(){
+        var tem;
+        if(currentFile.includes(".html")||currentFile.includes(".js")||currentFile.includes(".htm")){
+            tem="for(var i=0;i<length;i++){}";
+        }else{
+            tem="for(int i=0;i<length;i++){}";
+        }
+        editor.session.insert({row:editor.getCursorPosition().row, column:editor.getCursorPosition().column}, tem);
+
+    }
+    function goBack() {
+        if(pathBefore.length!=0){
+            path=pathBefore.pop();
+            isPathBefore=true
+            currentFile="";
+            showFileList(path);
+        }
+    }
+    function tryIt(){
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")){
+            s=s.trim();
+        }else{
+            return;
+        }
+        if(s.startsWith("go:")){
+            var _index=parseInt(s.substring(3));
+            editor.resize(true);
+            editor.scrollToLine(_index, true, true, function () {});
+            editor.gotoLine(_index, 0, true);
+            return;
+        }
+        if(s.startsWith("text:")||s.startsWith("txt:")){
+            var k=s.indexOf(":");
+            var url=s.substring(k+1);
+            $.ajax({
+                url: "template/"+url+".txt",
+                method: "GET",
+                contentType: "text/plain",
+                success: (function (msg) {
+                    editor.setValue(msg);
+                })
+            })
+            return;
+        }
+        //text:spring/service
+        if((s=="help")||(s=="?")){
+             $.ajax({
+                url: "help",
+                method: "GET",
+                data: {path: path},
+                contentType: "text/plain",
+                success: (function (msg) {
+                    editor.setValue(msg);
+                })
+            })
+            return   
+        }
+        
+        
+    }
+    
+    function generateMybatis(){
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")){
+            s=s.trim();
+        }else{
+            return;
+        }
+        $.ajax({
+            url: "mybatis",
+            method: "GET",
+            data: {path: path+currentFile,method:s},
+            contentType: "text/plain",
+            success: (function (msg) {
+                editor.setValue(msg);
+            })
+        })
+    }
+    
+    function generateVS(){
+        /*
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")){
+            s=s.trim();
+        }else{
+            return;
+        }*/
+        $.ajax({
+            url: "VS",
+            method: "GET",
+            data: {path: path+currentFile},
+            contentType: "text/plain",
+            success: (function (msg) {
+                //editor.setValue(msg);
+            })
+        })
+    }
+    function FirstlowCase(){
+        var str=editor.getSelectedText();
+        if(str==undefined){
+            return;
+        }
+        str=str.trim();
+        if(str==""){
+            return;
+        }
+        str=str[0].toLowerCase()+str.substring(1);
+        
+        editor.session.insert({row:editor.getCursorPosition().row, column:editor.getCursorPosition().column}, " "+str);    
+        
+    }
+    function FirstlowCaseNewField(){
+        var str=editor.getSelectedText();
+        if(str==undefined){
+            return;
+        }
+        str=str.trim();
+        if(str==""){
+            return;
+        }
+        str=str[0].toLowerCase()+str.substring(1)+"=new "+str[0]+"();";
+        
+        editor.session.insert({row:editor.getCursorPosition().row, column:editor.getCursorPosition().column}, " "+str);    
+        
+        
+    }
+    function getSet(){
+        var currentLine = editor.getCursorPosition().row;
+        var line = editor.session.getLine(currentLine);
+        line=line.trim();
+        if(line[line.length-1]!=";"){
+            return;
+        }else{
+            line=line.substring(0,line.length-1);
+        }
+        var ss=line.split(" ");
+        if(ss.length<2){
+            return;
+        }
+        var name=ss[ss.length-1];
+        var type=ss[ss.length-2];
+        
+        var tem="\tpublic "+type+" get"+name[0].toUpperCase()+name.substring(1)+"(){\n"
+        tem+="\t\treturn "+name+";\n"
+        tem+="\t}\n"
+        tem+="\tpublic void set"+name[0].toUpperCase()+name.substring(1)+"("+type+" "+name+"){\n"
+        tem+="\t\tthis."+name+"="+name+";\n";
+        tem+="\t}\n\n"
+    
+        editor.session.insert({row:editor.getCursorPosition().row+1, column:0}, tem);    
+        
+    }
+    
+    function analyzeForJava(){
+        
+        $.ajax({
+            url: "analyze/java",
+            method: "GET",
+            data: {path: path+currentFile},
+            contentType: "text/plain",
+            success: (function (msg) {
+                editor.setValue(msg);
+            })
+        })
+    }
+    function replaceURL(){
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")){
+            s=s.trim();
+            //document.getElementById("commonInput").value=eval(s);
+        }else{
+            return;
+        }
+        s=s.replace(/\\/g, '/');
+        if(s[s.length-1]!='/'){
+            s+='/';
+        }
+        document.getElementById("commonInput").value=s;
+    }
+    var  fileLinks=[]
+    function fileLink(e){
+        var s=document.getElementById("commonInput").value;
+        if(s!=undefined&&(s.trim()!="")){
+            s=s.trim();
+            //document.getElementById("commonInput").value=eval(s);
+        }else{
+            return;
+        }
+        
+        var button = document.createElement('button');
+        button.innerHTML = s;
+        button.fid=fileLinks.length;
+        button.onclick = function(){
+            var obj=fileLinks[this.fid];
+            console.log(obj.currentFile,currentFile)
+            path=obj.path;
+            currentFile=obj.currentFile;
+            
+            //goBack();
+            showFileList(path)
+            $.ajax({
+                url: "getFile",
+                method: "GET",
+                data: {path: (obj.path+obj.currentFile).replace(/\\/g, '/')},
+                contentType: "text/plain",
+                success: (function (msg) {
+                    editor.setValue(msg);
+                    pathBefore=Array.from(obj.pathBefore);
+                    isPathBefore=obj.isPathBefore;
+                    pathNext=obj.pathNext;
+                    currentFile=obj.currentFile;
+                    path=obj.path;
+                    currentFile=obj.currentFile;
+            
+                })
+            })
+            
+        };
+        var obj={};
+        obj.path=path;
+        obj.pathBefore=Array.from(pathBefore);
+        obj.isPathBefore=isPathBefore;
+        obj.pathNext=pathNext;
+        obj.currentFile=currentFile;
+        fileLinks.push(obj);
+        console.log(obj);/*
+        console.log(e)
+        console.log(e);
+        console.log(e.parentNode);
+        */
+        e.parentNode.insertBefore(button, e.nextSibling)
+    }
+    var tag=false;
+    var sab;
+    function toggle(elem){
+        var sibling = elem.parentNode.firstChild;
+        for ( ; sibling; sibling = sibling.nextSibling ){
+            if(sibling.style==undefined){
+                continue;
+            }
+            if(sibling!=elem){
+                if(tag){
+                    sibling.style.display="none";
+                }else{
+                    sibling.style.display="inline";
+                }
+            }
+        }
+        if(!tag){
+            elem.innerHTML="<<<";
+        }else{
+            elem.innerHTML=">>>";
+        }
+        tag=!tag;
+    } 
+      
+</script>
+</body>
+</html>
