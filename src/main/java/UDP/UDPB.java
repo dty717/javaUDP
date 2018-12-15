@@ -20,7 +20,7 @@ public class UDPB {
         try {
             socket = new DatagramSocket();
             test_socket = new DatagramSocket();
-            address = InetAddress.getByName("127.0.0.1");//127.0.0.1 106.14.118.135
+            address = InetAddress.getByName("106.14.118.135");//127.0.0.1 106.14.118.135
             test_address = InetAddress.getByName("127.0.0.1");
             socket.setSoTimeout(50000);
         } catch (SocketException e) {
@@ -114,14 +114,9 @@ public class UDPB {
             return null;
         }
         byte[]received = Arrays.copyOf(reciveBuffer,reciveBufferIndex);
-        /*
-        System.out.println();
-        for(int i=0;i<reciveBufferIndex;i++){
-            System.out.print(reciveBuffer[i]+"\t");
-        }
-        System.out.println();
-        System.out.println();
-        */
+        
+        //System.out.println(new String(received));
+        
         int id=Integer.parseInt(new String(Arrays.copyOfRange(reciveBuffer,1,5)));
         byte[] tem=Arrays.copyOfRange(reciveBuffer,5,reciveBufferIndex);
         
@@ -145,16 +140,20 @@ public class UDPB {
     public void receive(DatagramPacket packet)throws IOException{
         reciveBufferIndex=0;
         while(true){
+            buf=new byte[1024];
+            packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
-            byte[] tem = Arrays.copyOfRange(packet.getData(),packet.getOffset(), packet.getOffset()+packet.getLength()); 
+            if(packet.getLength()==1){
+                continue;
+            }
+            byte[] tem = Arrays.copyOfRange(packet.getData(),0, packet.getOffset()+packet.getLength()); 
             for(int i=0;i<tem.length;i++){
                 reciveBuffer[reciveBufferIndex++]=tem[i];
             }
-            if(packet.getLength()!=1024){
+            if(tem.length!=1024){
                 break;
             }
         }
-        
     }
     public void send(byte[]bits)throws IOException{
         DatagramPacket packet;
@@ -183,9 +182,10 @@ public class UDPB {
     
     public byte[] request(String urlStr){
         try{
-        String []urls=urlStr.split("\r\n");
+        String []urls=urlStr.split("\r\n",2);
         //String _url= java.net.URLDecoder.decode(urlStr, "GBK");
         url = new URL("http://127.0.0.1:8080"+urls[0]);
+        
         try {
             DatagramPacket test_packet
                 = new DatagramPacket(url.toString().getBytes("UTF-8"), url.toString().getBytes("UTF-8").length<400?url.toString().getBytes("UTF-8").length:400, test_address, test_port);
@@ -223,7 +223,7 @@ public class UDPB {
             */
             for(int i=1;i<urls.length;i++){
                 osw.write(urls[i]);
-                System.out.println(URLDecoder.decode(urls[i], "UTF-8"));
+                //System.out.println(URLDecoder.decode(urls[i], "UTF-8"));
                 if(i!=urls.length-1){
                    osw.write("\r\n"); 
                 }
@@ -246,7 +246,14 @@ public class UDPB {
                 outputStream.write(chunk, 0, bytesRead);
             }
             reader.close();
-            
+        if(urls[0].indexOf("monitor")!=-1){
+            System.out.println(urls[0]);
+            System.out.println(outputStream.toByteArray().length);
+            FileOutputStream  writer=new FileOutputStream ("C:/Users/xqy/Desktop/github/javaUDP/src/main/java/UDP/test.jpg");
+            writer.write(outputStream.toByteArray());
+            writer.close();
+            return "error".getBytes();
+        }
             return outputStream.toByteArray();
         }catch(Exception e){
             e.printStackTrace();

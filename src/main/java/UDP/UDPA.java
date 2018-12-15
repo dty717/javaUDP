@@ -29,7 +29,7 @@ public class UDPA {
         try {
             socket = new DatagramSocket();
             test_socket = new DatagramSocket();
-            address = InetAddress.getByName("127.0.0.1");//106.14.118.135
+            address = InetAddress.getByName("106.14.118.135");//106.14.118.135
             test_address = InetAddress.getByName("127.0.0.1");
         } catch (SocketException e) {
             e.printStackTrace();
@@ -127,7 +127,7 @@ public class UDPA {
         } catch (IOException e) {
             e.printStackTrace();
         }
-      String response = UDPa.sendEcho(wrap(url));
+      UDPa.sendEcho(wrap(url));
       int id=idTask;
       int j=0;
       while(contain[id]==null&&j<10000){
@@ -262,7 +262,7 @@ public class UDPA {
         
     }
     private boolean isGetting;
-    public String sendEcho(byte[] msg) {
+    public byte[] sendEcho(byte[] msg) {
         
         buf = msg;
 
@@ -287,7 +287,7 @@ public class UDPA {
         byte[] tem=Arrays.copyOfRange(reciveBuffer,5,reciveBufferIndex);
 
         contain[id]=decrypt(tem);
-        return received;
+        return Arrays.copyOfRange(reciveBuffer,0,reciveBufferIndex);
     }
     
     public void close() {
