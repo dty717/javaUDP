@@ -18,7 +18,7 @@ public class Client {
     private DatagramSocket nextSocket;
     private InetAddress nextAddress;
     private int nextPort;
-    private String hostString="106.14.118.135";
+    private String hostString="dty717.com";
     public Client() {
         try {
             this.socket = new DatagramSocket();
