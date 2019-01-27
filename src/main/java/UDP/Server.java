@@ -36,7 +36,7 @@ public class Server extends Thread {
             handleRecive(packet);
             InetAddress address = packet.getAddress();
             int port = packet.getPort();
-
+            System.out.println(address);
             packet = new DatagramPacket(send.getBytes(), send.getBytes().length, address, port);
             if (receive.equals("end")) {
                 running = false;
