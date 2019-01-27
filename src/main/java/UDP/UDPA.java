@@ -29,7 +29,7 @@ public class UDPA {
         try {
             socket = new DatagramSocket();
             test_socket = new DatagramSocket();
-            address = InetAddress.getByName("106.14.118.135");//106.14.118.135
+            address = InetAddress.getByName("dty717.com");//106.14.118.135
             test_address = InetAddress.getByName("127.0.0.1");
         } catch (SocketException e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class UDPA {
             return null;      
       }
     }
-    static String contain[]=new String[10000];
+    static byte [][]contain=new byte[10000][];
     static String libPath="lib";//C:/Users/xqy/Desktop/github/javaUDP/src/main/java/UDP/
     private static String specialURL(String url){
         if(url.contains("jquery-3.3.1.min.js")){
@@ -79,7 +79,7 @@ public class UDPA {
         String body = null;
         StringBuilder stringBuilder = new StringBuilder();
         BufferedReader bufferedReader = null;
-    
+        
         try {
             if (inputStream != null) {
                 Charset charset = Charset.forName("UTF8");
@@ -110,10 +110,14 @@ public class UDPA {
       try{
       URI requestURI = exchange.getRequestURI();
       String url = requestURI.toString();//URLDecoder.decode(,"UTF-8");
-
+    //   if(url.length()<30)
+    //     System.out.println(url);
+    //   else{
+    //     System.out.println(url.substring(0,30));
+    //   }
       String content=specialURL(url);
         //System.out.println("url:"+url);
-
+        byte[]send_content;
       if(content==null){
         //getRequestMethod()
         //System.out.println();
@@ -136,15 +140,17 @@ public class UDPA {
       if(j>=1000){
           return;
       }
-      content=contain[id];
+      send_content=contain[id];
       contain[id]=null;
+      }else{
+          send_content=content.getBytes("UTF-8");
       }
-      
-      exchange.sendResponseHeaders(200, content.getBytes("UTF-8").length);//response code and length
+      exchange.sendResponseHeaders(200, send_content.length);//response code and length
       
       OutputStream os = exchange.getResponseBody();
-      os.write(content.getBytes("UTF-8"));
-      os.close();}
+      os.write(send_content);
+      os.close();
+      }
       catch (Exception e) {
             e.printStackTrace();
         }
@@ -180,7 +186,7 @@ public class UDPA {
         bits=url.getBytes("UTF-8");   
       }catch(Exception e){
       }      
-      char keys[]=new char[]{'d','t','y','7','1','7'};//};//
+      char keys[]=new char[]{'d','1','m','1','1','7'};//};//
       int m=0;
       for(int i=0;i<bits.length;i++){
           bits[i]+=(byte)keys[m++];
@@ -192,8 +198,8 @@ public class UDPA {
   }
   
   // a (d*) (1+)
-  private static String decrypt(byte[]bits){
-      char keys[]=new char[]{'d','a','p'};
+  private static byte[] decrypt(byte[]bits){
+      char keys[]=new char[]{'a','d','p'};
       int m=0;
       for(int i=0;i<bits.length;i++){
           bits[i]-=(byte)keys[m++];
@@ -201,7 +207,7 @@ public class UDPA {
               m=0;
           }
       }
-      return new String(bits,StandardCharsets.UTF_8);
+      return bits;
       
   }
     static int j=1000;
@@ -211,7 +217,7 @@ public class UDPA {
             libPath=args[0];
         }
         System.out.println("it's UPDA");
-        HttpServer server = HttpServer.create(new InetSocketAddress(8088), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8098), 0);
         HttpContext context = server.createContext("/");
         context.setHandler(UDPA::handleRequest);
         server.start();

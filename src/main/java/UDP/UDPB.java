@@ -20,7 +20,7 @@ public class UDPB {
         try {
             socket = new DatagramSocket();
             test_socket = new DatagramSocket();
-            address = InetAddress.getByName("106.14.118.135");//127.0.0.1 106.14.118.135
+            address = InetAddress.getByName("dty717.com");//127.0.0.1 106.14.118.135
             test_address = InetAddress.getByName("127.0.0.1");
             socket.setSoTimeout(50000);
         } catch (SocketException e) {
@@ -61,7 +61,7 @@ public class UDPB {
     }
     
     private  byte[] encrypt(byte[]bits){
-      char keys[]=new char[]{'d','a','p'};
+      char keys[]=new char[]{'a','d','p'};
       int m=0;
       for(int i=0;i<bits.length;i++){
           bits[i]+=(byte)keys[m++];
@@ -73,7 +73,7 @@ public class UDPB {
   }
   private String decrypt(byte[]bits){
        
-      char keys[]=new char[]{'d','t','y','7','1','7'};//'d','t','y','7','1','7'};//
+      char keys[]=new char[]{'d','1','m','1','1','7'};//'d','t','y','7','1','7'};//
       int m=0;
       for(int i=0;i<bits.length;i++){
           bits[i]-=(byte)keys[m++];
@@ -246,14 +246,14 @@ public class UDPB {
                 outputStream.write(chunk, 0, bytesRead);
             }
             reader.close();
-        if(urls[0].indexOf("monitor")!=-1){
+        /*if(urls[0].indexOf("monitor")!=-1){
             System.out.println(urls[0]);
             System.out.println(outputStream.toByteArray().length);
             FileOutputStream  writer=new FileOutputStream ("C:/Users/xqy/Desktop/github/javaUDP/src/main/java/UDP/test.jpg");
             writer.write(outputStream.toByteArray());
             writer.close();
             return "error".getBytes();
-        }
+        }*/
             return outputStream.toByteArray();
         }catch(Exception e){
             e.printStackTrace();
