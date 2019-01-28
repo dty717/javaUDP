@@ -16,6 +16,8 @@ import java.util.Arrays;
 
 public class UDPA {
 
+    public final static bandWidth=512;
+
     private DatagramSocket socket;
     private InetAddress address;
     
@@ -44,10 +46,10 @@ public class UDPA {
           Charset charset = Charset.forName("UTF8");
           InputStreamReader reader = new InputStreamReader(new FileInputStream(path), charset);
             
-          char[]tem=new char[1024];
+          char[]tem=new char[bandWidth];
           int k=reader.read(tem);
           StringBuffer buffer=new StringBuffer();
-          while(k==1024){
+          while(k==bandWidth){
               buffer.append(String.valueOf(tem));
               k=reader.read(tem);
           }
@@ -230,7 +232,7 @@ public class UDPA {
     public void receive(DatagramPacket packet)throws Exception{
         reciveBufferIndex=0;
         while(true){
-            buf=new byte[1024];
+            buf=new byte[bandWidth];
             packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
             if(packet.getLength()==1){
@@ -240,7 +242,7 @@ public class UDPA {
             for(int i=0;i<tem.length;i++){
                 reciveBuffer[reciveBufferIndex++]=tem[i];
             }
-            if(tem.length!=1024){
+            if(tem.length!=bandWidth){
                 break;
             }
         }
@@ -248,18 +250,18 @@ public class UDPA {
     public void send(byte[]bits)throws IOException{
         DatagramPacket packet;
         int i=0;
-        for(;(i+1)*1024<bits.length;i++){
-            byte[] copy = Arrays.copyOfRange(buf, i*1024, (i+1)*1024); 
+        for(;(i+1)*bandWidth<bits.length;i++){
+            byte[] copy = Arrays.copyOfRange(buf, i*bandWidth, (i+1)*bandWidth); 
             packet
                 = new DatagramPacket(copy, copy.length, address, 17000);
             socket.send(packet);
         }
         
-        byte[] copy = Arrays.copyOfRange(bits,i*1024, bits.length); 
+        byte[] copy = Arrays.copyOfRange(bits,i*bandWidth, bits.length); 
         packet
             = new DatagramPacket(copy, copy.length, address, 17000);
         socket.send(packet);
-        if(copy.length==1024){
+        if(copy.length==bandWidth){
             copy = new byte[]{' '}; 
             packet
                 = new DatagramPacket(copy, copy.length, address, 17000);

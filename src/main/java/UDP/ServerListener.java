@@ -85,8 +85,9 @@ public class ServerListener extends Thread {
         
         
     }
+    public final static bandWidth=512;
     public void send(byte[]bits,InetAddress address,int port )throws IOException{
-        if(bits.length!=1024){
+        if(bits.length!=bandWidth){
             isTransmit=false;
             System.out.println("len:"+bits.length);
             
@@ -94,18 +95,18 @@ public class ServerListener extends Thread {
         
         DatagramPacket packet;
         int i=0;
-        for(;(i+1)*1024<bits.length;i++){
-            byte[] copy = Arrays.copyOfRange(buf, i*1024, (i+1)*1024); 
+        for(;(i+1)*bandWidth<bits.length;i++){
+            byte[] copy = Arrays.copyOfRange(buf, i*bandWidth, (i+1)*bandWidth); 
             packet
                 = new DatagramPacket(copy, copy.length, address, port);
             socket.send(packet);
         }
         
-        byte[] copy = Arrays.copyOfRange(bits,i*1024, bits.length); 
+        byte[] copy = Arrays.copyOfRange(bits,i*bandWidth, bits.length); 
         packet
             = new DatagramPacket(copy, copy.length, address, port);
         socket.send(packet);
-        if(copy.length==1024){
+        if(copy.length==bandWidth){
             copy = new byte[]{' '}; 
             packet
                 = new DatagramPacket(copy, copy.length, address, port);

@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class Testjsoup {
     public static void main(String[] args) throws IOException {
-        Connection  con=Jsoup.connect("http://www.google.com/search?q=detect+qrcode");
+        Connection  con=Jsoup.connect("http://192.168.2.100");
         Connection.Response res=con.method(Connection.Method.GET).execute();
         System.out.print(res.body());
     }
