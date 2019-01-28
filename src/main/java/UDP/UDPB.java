@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 
 public class UDPB {
 
-    public final static bandWidth=512;
+    public final static int bandWidth=512;
 
     private DatagramSocket socket;
     private InetAddress address;

@@ -4,6 +4,7 @@ import java.net.*;
 import java.util.Arrays;
 
 public class ServerListener extends Thread {
+    public final static int bandWidth=512;
 
     private DatagramSocket socket;
     private boolean running;
@@ -85,7 +86,6 @@ public class ServerListener extends Thread {
         
         
     }
-    public final static bandWidth=512;
     public void send(byte[]bits,InetAddress address,int port )throws IOException{
         if(bits.length!=bandWidth){
             isTransmit=false;
