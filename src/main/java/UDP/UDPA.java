@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class UDPA {
 
-    public final static int bandWidth=512;
+    public final static int bandWidth=256;
 
     private DatagramSocket socket;
     private InetAddress address;
@@ -118,7 +118,6 @@ public class UDPA {
     //     System.out.println(url.substring(0,30));
     //   }
       String content=specialURL(url);
-        //System.out.println("url:"+url);
         byte[]send_content;
       if(content==null){
         //getRequestMethod()
@@ -219,7 +218,7 @@ public class UDPA {
             libPath=args[0];
         }
         System.out.println("it's UPDA");
-        HttpServer server = HttpServer.create(new InetSocketAddress(8098), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8088), 0);
         HttpContext context = server.createContext("/");
         context.setHandler(UDPA::handleRequest);
         server.start();

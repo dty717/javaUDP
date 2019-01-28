@@ -4,7 +4,7 @@ import java.net.*;
 import java.util.Arrays;
 
 public class ServerListener extends Thread {
-    public final static int bandWidth=512;
+    public final static int bandWidth=256;
 
     private DatagramSocket socket;
     private boolean running;
