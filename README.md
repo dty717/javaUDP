@@ -65,4 +65,10 @@ so  x--->f(x)--->t[f(x)] --->t^t[f(x)]--->f^f(x)--->x
     
     and think a question
         from x -->y is there a "smallest" function to realize
-        
+        suppose data x 11110,data y 11111
+            you need to turn 0->1 from x-->y,is the most simple way of function as I see.
+            we just prove some data to some data have the smallest function
+            (a think is that some function self are smallest and have no relativity,and call them coordinates function)
+            so now we prove from any data x to any data y,it must has only one smallest function to realize
+            for 15min thinking, I think it could not prove.
+            
