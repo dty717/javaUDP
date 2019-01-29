@@ -31,7 +31,7 @@ public class UDPA {
         try {
             socket = new DatagramSocket();
             test_socket = new DatagramSocket();
-            address = InetAddress.getByName("dty717.com");//106.14.118.135
+            address = InetAddress.getByName("192.168.2.102");//106.14.118.135 dty717.com
             test_address = InetAddress.getByName("127.0.0.1");
         } catch (SocketException e) {
             e.printStackTrace();
@@ -109,17 +109,17 @@ public class UDPA {
         return body;
     }
     private static void handleRequest(HttpExchange exchange)  {
-      try{
-      URI requestURI = exchange.getRequestURI();
-      String url = requestURI.toString();//URLDecoder.decode(,"UTF-8");
-    //   if(url.length()<30)
-    //     System.out.println(url);
-    //   else{
-    //     System.out.println(url.substring(0,30));
-    //   }
-      String content=specialURL(url);
+        try{
+        URI requestURI = exchange.getRequestURI();
+        String url = requestURI.toString();//URLDecoder.decode(,"UTF-8");
+        //     if(url.length()<30)
+        //       System.out.println(url);
+        //     else{
+        //       System.out.println(url.substring(0,30));
+        //     }
+        String content=specialURL(url);
         byte[]send_content;
-      if(content==null){
+        if(content==null){
         //getRequestMethod()
         //System.out.println();
         if(exchange.getRequestMethod().equals("POST")){
@@ -132,85 +132,85 @@ public class UDPA {
         } catch (IOException e) {
             e.printStackTrace();
         }
-      UDPa.sendEcho(wrap(url));
-      int id=idTask;
-      int j=0;
-      while(contain[id]==null&&j<10000){
-          j++;
-      }
-      if(j>=1000){
-          return;
-      }
-      send_content=contain[id];
-      contain[id]=null;
-      }else{
-          send_content=content.getBytes("UTF-8");
-      }
-      exchange.sendResponseHeaders(200, send_content.length);//response code and length
+        UDPa.sendEcho(wrap(url));
+        int id=idTask;
+        int j=0;
+        while(contain[id]==null&&j<10000){
+            j++;
+        }
+        if(j>=1000){
+            return;
+        }
+        send_content=contain[id];
+        contain[id]=null;
+        }else{
+            send_content=content.getBytes("UTF-8");
+        }
+        exchange.sendResponseHeaders(200, send_content.length);//response code and length
       
-      OutputStream os = exchange.getResponseBody();
-      os.write(send_content);
-      os.close();
-      }
-      catch (Exception e) {
+        OutputStream os = exchange.getResponseBody();
+        os.write(send_content);
+        os.close();
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-  }
-  private static byte[] wrap(String url){
-      if(j==9999){
-          j=1000;
-      }else{
-          j++;
-      }
-      idTask=j;
-      byte[]a1=null;
-      try{
-          a1=("A"+j).getBytes("UTF-8");
-      }catch(Exception e){
-      }
-      byte[]a2=encrypt(url);
-      byte[]all=new byte[a1.length+a2.length];
-      for(int i=0;i<a1.length;i++){
-          all[i]=a1[i];
-      }
-      for(int i=a1.length;i<a2.length+a1.length;i++){
-          all[i]=a2[i-a1.length];
-      }
-      
-      return all;
-  }
-  static int idTask;
-  
-  private static byte[] encrypt(String url){
-      byte[]bits=null;
-      try{
-        bits=url.getBytes("UTF-8");   
-      }catch(Exception e){
-      }      
-      char keys[]=new char[]{'d','1','m','1','1','7'};//};//
-      int m=0;
-      for(int i=0;i<bits.length;i++){
-          bits[i]+=(byte)keys[m++];
-          if(m==keys.length){
-              m=0;
-          }
-      }
-      return bits;
-  }
-  
-  // a (d*) (1+)
-  private static byte[] decrypt(byte[]bits){
-      char keys[]=new char[]{'a','d','p'};
-      int m=0;
-      for(int i=0;i<bits.length;i++){
-          bits[i]-=(byte)keys[m++];
-          if(m==keys.length){
-              m=0;
-          }
-      }
-      return bits;
-      
-  }
+    }
+    private static byte[] wrap(String url){
+        if(j==9999){
+            j=1000;
+        }else{
+            j++;
+        }
+        idTask=j;
+        byte[]a1=null;
+        try{
+            a1=("A"+j).getBytes("UTF-8");
+        }catch(Exception e){
+        }
+        byte[]a2=encrypt(url);
+        byte[]all=new byte[a1.length+a2.length];
+        for(int i=0;i<a1.length;i++){
+            all[i]=a1[i];
+        }
+        for(int i=a1.length;i<a2.length+a1.length;i++){
+            all[i]=a2[i-a1.length];
+        }
+        
+        return all;
+    }
+    static int idTask;
+    
+    private static byte[] encrypt(String url){
+        byte[]bits=null;
+        try{
+          bits=url.getBytes("UTF-8");   
+        }catch(Exception e){
+        }      
+        char keys[]=new char[]{'d','1','m','1','1','7'};//};//
+        int m=0;
+        for(int i=0;i<bits.length;i++){
+            bits[i]+=(byte)keys[m++];
+            if(m==keys.length){
+                m=0;
+            }
+        }
+        return bits;
+    }
+    
+    // a (d*) (1+)
+    private static byte[] decrypt(byte[]bits){
+        char keys[]=new char[]{'a','d','p'};
+        int m=0;
+        for(int i=0;i<bits.length;i++){
+            bits[i]-=(byte)keys[m++];
+            if(m==keys.length){
+                m=0;
+            }
+        }
+        return bits;
+        
+    }
     static int j=1000;
     static UDPA UDPa=new UDPA();
     public static void main(String[] args) throws IOException{
@@ -280,7 +280,6 @@ public class UDPA {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
         
         try {
             receive(packet);

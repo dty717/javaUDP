@@ -22,7 +22,7 @@ public class UDPB {
         try {
             socket = new DatagramSocket();
             test_socket = new DatagramSocket();
-            address = InetAddress.getByName("dty717.com");//127.0.0.1 106.14.118.135
+            address = InetAddress.getByName("192.168.2.102");//127.0.0.1 106.14.118.135
             test_address = InetAddress.getByName("127.0.0.1");
             socket.setSoTimeout(50000);
         } catch (SocketException e) {
