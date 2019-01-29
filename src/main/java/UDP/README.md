@@ -31,7 +31,7 @@ so  x--->f(x)--->t[f(x)] --->t^t[f(x)]--->f^f(x)--->x
         (tf)^(tf)=1
         tf=tf
         (tf)^=f^t^
-        predict (abcd..)^=...d^c^b^a^
+        predict (abcd..)^=...d^c^b^a^  //proved by dty717
         if m^m=1
         so  (abcd..m)^(abcd..m)=1
             (abcd..)^(abcd..)=1
@@ -53,7 +53,11 @@ so  x--->f(x)--->t[f(x)] --->t^t[f(x)]--->f^f(x)--->x
         (x,y) -->y=f(x)   (x--->y)
         (y,x) -->y=f^(x)  (y--->x)
         
-    by the way,suppose many{x},many{y}       
-        
-        
-        
+    by the way,suppose many{x},many{y},
+        find x1,x2 to y1,y2
+        so x1-->y1 x2-->y2
+        x1-->y2 =x1-->y1+y1-->y2
+    
+    and think a question
+        from x -->y is there a "smallest" function to realize
+                
