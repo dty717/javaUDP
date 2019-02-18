@@ -134,10 +134,10 @@ public class GoogleApi extends Thread{
         //Matcher matcher = regex.matcher(sb.toString());
         int start=sb.toString().indexOf("<!--a-->");
         int end=sb.toString().indexOf("<!--z-->");
-        
         String link = "error";
         if(start!=-1&&end!=-1)
             link=sb.toString().substring(start+8,end);
+        System.out.println(link);
         return link;
     }
 }

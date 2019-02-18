@@ -6,10 +6,10 @@ var udp = require('dgram');
 var client = udp.createSocket('udp4');
 
 //buffer msg
-var data = Buffer.from('siddheshrane');
+var data = Buffer.from('test');
 
 //sending msg
-client.send(data,17000,'localhost',function(error){
+client.send(data,17000,'138.128.199.177',function(error){
   if(error){
     client.close();
   }else{
