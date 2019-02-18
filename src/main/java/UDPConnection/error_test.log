@@ -1,4 +1,0 @@
-GetGoogle.java:16: 错误: 类GoogleApi是公共的, 应在名为 GoogleApi.java 的文件中声明
-public class GoogleApi extends Thread{
-       ^
-1 个错误
