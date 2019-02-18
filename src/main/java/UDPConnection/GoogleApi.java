@@ -49,10 +49,8 @@ public class GoogleApi extends Thread{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
-            handleRecive(packet);
-            
-            byte[]transmit=returnBuffer;
+                        
+            byte[]transmit=handleRecive(packet);
             //Arrays.copyOfRange(packet.getData(),0,packet.getOffset()+packet.getLength());
             //System.out.println("all:"+transmit.length);
             
@@ -76,11 +74,10 @@ public class GoogleApi extends Thread{
         
     }
     public void send(byte[]bits,InetAddress address,int port )throws IOException{
-        System.out.println(bits.length);
         DatagramPacket packet;
         int i=0;
         for(;(i+1)*bandWidth<bits.length;i++){
-            byte[] copy = Arrays.copyOfRange(buf, i*bandWidth, (i+1)*bandWidth); 
+            byte[] copy = Arrays.copyOfRange(bits, i*bandWidth, (i+1)*bandWidth); 
             packet
                 = new DatagramPacket(copy, copy.length, address, port);
             socket.send(packet);
@@ -105,13 +102,12 @@ public class GoogleApi extends Thread{
     boolean targetA;
     boolean targetB;
     boolean isTransmit;
-    void handleRecive(DatagramPacket pac) {
+    byte[] handleRecive(DatagramPacket pac) {
         receive = new String(reciveBuffer,0,reciveBufferIndex);
         addressA= pac.getAddress();
         portA = pac.getPort();
         try {
-            returnBuffer=getResultAmount(receive).getBytes();
-            System.out.println(new String(returnBuffer));
+            return getResultAmount(receive).getBytes();
         } catch(Exception e) {
             e.printStackTrace();
         }
