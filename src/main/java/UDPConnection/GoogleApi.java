@@ -30,8 +30,8 @@ public class GoogleApi extends Thread{
 
     public static void main(String[] args) {
         System.out.println("it's GoogleApi");
-        System.setProperty("https.proxyHost","127.0.0.1");
-        System.setProperty("https.proxyPort","1080");
+        //System.setProperty("https.proxyHost","127.0.0.1");
+        //System.setProperty("https.proxyPort","1080");
         GoogleApi googleApi = new GoogleApi();
         googleApi.start();
     }
