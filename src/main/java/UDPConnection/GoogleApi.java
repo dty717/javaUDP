@@ -77,10 +77,7 @@ public class GoogleApi extends Thread{
         
     }
     public void send(byte[]bits,InetAddress address,int port )throws IOException{
-        if(bits.length!=bandWidth){
-            isTransmit=false;
-        }
-        
+        System.out.println(bits.length);
         DatagramPacket packet;
         int i=0;
         for(;(i+1)*bandWidth<bits.length;i++){
@@ -137,7 +134,6 @@ public class GoogleApi extends Thread{
         String link = "error";
         if(start!=-1&&end!=-1)
             link=sb.toString().substring(start+8,end);
-        System.out.println(link);
         return link;
     }
 }
