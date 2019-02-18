@@ -74,7 +74,6 @@ public class GoogleApi extends Thread{
             reciveBuffer[reciveBufferIndex++]=tem[i];
         }
         
-        
     }
     public void send(byte[]bits,InetAddress address,int port )throws IOException{
         System.out.println(bits.length);
