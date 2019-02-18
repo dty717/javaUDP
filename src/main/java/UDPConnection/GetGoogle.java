@@ -215,6 +215,7 @@ public class GetGoogle extends Thread{
             for(int i=0;i<tem.length;i++){
                 reciveBuffer[reciveBufferIndex++]=tem[i];
             }
+            System.out.println(new String(tem));
             if(tem.length!=bandWidth){
                 break;
             }
