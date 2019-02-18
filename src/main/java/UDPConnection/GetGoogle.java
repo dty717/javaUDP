@@ -21,7 +21,7 @@ import java.io.OutputStream;
 
 public class GetGoogle extends Thread{
 
-    public final static int bandWidth=256;
+    public final static int bandWidth=64;
 
     private DatagramSocket socket;
     private InetAddress address;
