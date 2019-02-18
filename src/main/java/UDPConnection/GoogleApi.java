@@ -81,7 +81,7 @@ public class GoogleApi extends Thread{
                 = new DatagramPacket(copy, copy.length, address, port);
             socket.send(packet);
         }
-        byte[] copy = Arrays.copyOfRange(bits,(i-1)*bandWidth, bits.length); 
+        byte[] copy = Arrays.copyOfRange(bits,i*bandWidth, bits.length); 
         packet
             = new DatagramPacket(copy, copy.length, address, port);
         socket.send(packet);
