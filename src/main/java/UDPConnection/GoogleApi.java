@@ -14,11 +14,11 @@ import java.util.regex.Pattern;
 import java.util.Arrays;
 
 public class GoogleApi extends Thread{
-    public final static int bandWidth=256;
+    public final static int bandWidth=64;
 
     private DatagramSocket socket;
     private boolean running;
-    private byte[] buf = new byte[256];
+    private byte[] buf = new byte[64];
     
     public GoogleApi() {
         try {
