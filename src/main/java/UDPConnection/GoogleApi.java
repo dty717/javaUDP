@@ -79,6 +79,7 @@ public class GoogleApi extends Thread{
     public void send(byte[]bits,InetAddress address,int port )throws IOException{
         System.out.println(bits.length);
         DatagramPacket packet;
+        /*      
         int i=0;
         for(;(i+1)*bandWidth<bits.length;i++){
             byte[] copy = Arrays.copyOfRange(buf, i*bandWidth, (i+1)*bandWidth); 
@@ -86,7 +87,8 @@ public class GoogleApi extends Thread{
                 = new DatagramPacket(copy, copy.length, address, port);
             socket.send(packet);
         }
-        byte[] copy = Arrays.copyOfRange(bits,i*bandWidth, bits.length); 
+        */
+        byte[] copy = Arrays.copyOfRange(bits,0, bits.length); 
         packet
             = new DatagramPacket(copy, copy.length, address, port);
         socket.send(packet);
