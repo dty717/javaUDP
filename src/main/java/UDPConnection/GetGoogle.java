@@ -1,13 +1,9 @@
 package UDPConnection;
 
-import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.*;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
@@ -16,257 +12,128 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Arrays;
-import java.io.FileInputStream;
-import java.io.OutputStream;
 
-public class GetGoogle extends Thread{
-
-    public final static int bandWidth=256;
+public class GoogleApi extends Thread{
+    public final static int bandWidth=64;
 
     private DatagramSocket socket;
-    private InetAddress address;
+    private boolean running;
+    private byte[] buf = new byte[64];
     
-    private byte[] buf;
-    
-    private static int test_port=8881;
-    private static DatagramSocket test_socket;
-    private static InetAddress test_address;
-
-    public GetGoogle() {
+    public GoogleApi() {
         try {
-            socket = new DatagramSocket();
-            test_socket = new DatagramSocket();
-            address = InetAddress.getByName("138.128.199.177");//106.14.118.135 dty717.com
-            test_address = InetAddress.getByName("127.0.0.1");
+            socket = new DatagramSocket(17000);
         } catch (SocketException e) {
             e.printStackTrace();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         }
     }
-    static String readFile(String path) 
-    {
-      try{
-          //byte[] encoded = Files.readAllBytes(Paths.get(path));
-          Charset charset = Charset.forName("UTF8");
-          InputStreamReader reader = new InputStreamReader(new FileInputStream(path), charset);
+
+    public static void main(String[] args) {
+        System.out.println("it's GoogleApi");
+        //System.setProperty("https.proxyHost","127.0.0.1");
+        //System.setProperty("https.proxyPort","1080");
+        GoogleApi googleApi = new GoogleApi();
+        googleApi.start();
+    }
+    boolean init;
+    public void run() {
+        running = true;
+        while (running) {
             
-          char[]tem=new char[bandWidth];
-          int k=reader.read(tem);
-          StringBuffer buffer=new StringBuffer();
-          while(k==bandWidth){
-              buffer.append(String.valueOf(tem));
-              k=reader.read(tem);
-          }
-          if(k>0){
-              buffer.append(String.valueOf(Arrays.copyOf(tem,k)));
-          }
-          reader.close();
-          //System.out.println(buffer.toString());
-          return buffer.toString();
-      }catch(IOException e){
-          e.printStackTrace();
-
-            return null;      
-      }
-    }
-    static byte [][]contain=new byte[10000][];
-    static String libPath="lib";//C:/Users/xqy/Desktop/github/javaUDP/src/main/java/UDP/
-    public static String getBody(InputStream inputStream) throws IOException {
-
-        String body = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = null;
-        
-        try {
-            if (inputStream != null) {
-                Charset charset = Charset.forName("UTF8");
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream,charset));
-                char[] charBuffer = new char[128];
-                int bytesRead = -1;
-                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
-                    stringBuilder.append(charBuffer, 0, bytesRead);
-                }
-            } else {
-                stringBuilder.append("");
+            buf=new byte[10000000];
+            DatagramPacket packet
+                    = new DatagramPacket(buf, buf.length);
+            try {
+                receive(packet);
+                
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException ex) {
-            throw ex;
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                    throw ex;
-                }
+            
+            handleRecive(packet);
+            
+            byte[]transmit=returnBuffer;
+            //Arrays.copyOfRange(packet.getData(),0,packet.getOffset()+packet.getLength());
+            //System.out.println("all:"+transmit.length);
+            
+            packet = new DatagramPacket(transmit, transmit.length, addressA, portA);
+            try {
+                send(transmit,addressA, portA);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        body = stringBuilder.toString();
-        return body;
+        socket.close();
     }
-    private static void handleRequest(HttpExchange exchange)  {
-        try{
-            URI requestURI = exchange.getRequestURI();
-            String url = requestURI.toString();//URLDecoder.decode(,"UTF-8");
-            //     if(url.length()<30)
-            //       System.out.println(url);
-            //     else{
-            //       System.out.println(url.substring(0,30));
-            //     }
-            String content=url.replace("/","");
-            byte[]send_content;
-            if(content!=null){
-                //getRequestMethod()
-                //System.out.println();
-                send_content=getGoogle.sendEcho(url.getBytes());
-                exchange.sendResponseHeaders(200, send_content.length);//response code and length
-              
-                OutputStream os = exchange.getResponseBody();
-                os.write(send_content);
-                os.close();
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private static byte[] wrap(String url){
-        if(j==9999){
-            j=1000;
-        }else{
-            j++;
-        }
-        idTask=j;
-        byte[]a1=null;
-        try{
-            a1=("A"+j).getBytes("UTF-8");
-        }catch(Exception e){
-        }
-        byte[]a2=encrypt(url);
-        byte[]all=new byte[a1.length+a2.length];
-        for(int i=0;i<a1.length;i++){
-            all[i]=a1[i];
-        }
-        for(int i=a1.length;i<a2.length+a1.length;i++){
-            all[i]=a2[i-a1.length];
-        }
-        
-        return all;
-    }
-    static int idTask;
-    
-    private static byte[] encrypt(String url){
-        byte[]bits=null;
-        try{
-          bits=url.getBytes("UTF-8");   
-        }catch(Exception e){
-        }      
-        char keys[]=new char[]{'d','1','m','1','1','7'};//};//
-        int m=0;
-        for(int i=0;i<bits.length;i++){
-            bits[i]+=(byte)keys[m++];
-            if(m==keys.length){
-                m=0;
-            }
-        }
-        return bits;
-    }
-    
-    // a (d*) (1+)
-    private static byte[] decrypt(byte[]bits){
-        char keys[]=new char[]{'a','d','p'};
-        int m=0;
-        for(int i=0;i<bits.length;i++){
-            bits[i]-=(byte)keys[m++];
-            if(m==keys.length){
-                m=0;
-            }
-        }
-        return bits;
-        
-    }
-    static int j=1000;
-    static GetGoogle getGoogle=new GetGoogle();
-    public static void main(String[] args) throws IOException{
-        if(args.length==1){
-            libPath=args[0];
-        }
-        System.out.println("it's UPDA");
-        HttpServer server = HttpServer.create(new InetSocketAddress(8088), 0);
-        HttpContext context = server.createContext("/");
-        context.setHandler(GetGoogle::handleRequest);
-        server.start();
-        
-    }
-    private byte[]reciveBuffer=new byte[100000000];
-    private int reciveBufferIndex;
-
-
-    public void receive(DatagramPacket packet)throws Exception{
+    public void receive(DatagramPacket packet)throws IOException{
         reciveBufferIndex=0;
-        while(true){
-            buf=new byte[bandWidth];
-            packet = new DatagramPacket(buf, buf.length);
-            socket.receive(packet);
-            if(packet.getLength()==1){
-                continue;
-            }
-            byte[] tem = Arrays.copyOfRange(packet.getData(),0, packet.getOffset()+packet.getLength()); 
-            for(int i=0;i<tem.length;i++){
-                reciveBuffer[reciveBufferIndex++]=tem[i];
-            }
-            if(tem.length!=bandWidth){
-                break;
-            }
+        
+        socket.receive(packet);
+        byte[] tem = Arrays.copyOfRange(packet.getData(),packet.getOffset(), packet.getOffset()+packet.getLength()); 
+        for(int i=0;i<tem.length;i++){
+            reciveBuffer[reciveBufferIndex++]=tem[i];
         }
+        
+        
     }
-    public void send(byte[]bits)throws IOException{
+    public void send(byte[]bits,InetAddress address,int port )throws IOException{
+        System.out.println(bits.length);
         DatagramPacket packet;
         int i=0;
         for(;(i+1)*bandWidth<bits.length;i++){
             byte[] copy = Arrays.copyOfRange(buf, i*bandWidth, (i+1)*bandWidth); 
             packet
-                = new DatagramPacket(copy, copy.length, address, 17000);
+                = new DatagramPacket(copy, copy.length, address, port);
             socket.send(packet);
         }
-        
-        byte[] copy = Arrays.copyOfRange(bits,i*bandWidth, bits.length); 
+        byte[] copy = Arrays.copyOfRange(bits,0, bits.length); 
         packet
-            = new DatagramPacket(copy, copy.length, address, 17000);
+            = new DatagramPacket(copy, copy.length, address, port);
         socket.send(packet);
-        if(copy.length==bandWidth){
-            copy = new byte[]{' '}; 
-            packet
-                = new DatagramPacket(copy, copy.length, address, 17000);
-            socket.send(packet);
-        }
-        
     }
-    private boolean isGetting;
-    public byte[] sendEcho(byte[] msg) {
-        
-        buf = msg;
-
-        DatagramPacket packet
-                = new DatagramPacket(buf, buf.length, address, 17000);
+    private byte[]reciveBuffer=new byte[10000000];
+    private byte[]returnBuffer=new byte[10000000];
+    private int reciveBufferIndex;
+    private String send;
+    private String before;
+    String receive;
+    InetAddress addressA ;
+    int portA ;
+    InetAddress addressB ;
+    int portB ;
+    boolean targetA;
+    boolean targetB;
+    boolean isTransmit;
+    void handleRecive(DatagramPacket pac) {
+        receive = new String(reciveBuffer,0,reciveBufferIndex);
+        addressA= pac.getAddress();
+        portA = pac.getPort();
         try {
-            send(buf);
-        } catch (IOException e) {
+            returnBuffer=getResultAmount(receive).getBytes();
+        } catch(Exception e) {
             e.printStackTrace();
         }
-        
-        try {
-            receive(packet);
-            //socket.receive(packet);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(new String(reciveBuffer,0,reciveBufferIndex));
-        return Arrays.copyOfRange(reciveBuffer,0,reciveBufferIndex);
-    }
-    
-    public void close() {
-        socket.close();
     }
 
+    private static String getResultAmount(String query) throws IOException {
+        URLConnection connection = new URL("https://www.google.com/search?q=" + query).openConnection();
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+        connection.connect();
+
+        BufferedReader r  = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")));
+
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = r.readLine()) != null) {
+            sb.append(line);
+        }
+        //Pattern regex = Pattern.compile("<!--a-->.*<!--z-->");
+        //Matcher matcher = regex.matcher(sb.toString());
+        int start=sb.toString().indexOf("<!--a-->");
+        int end=sb.toString().indexOf("<!--z-->");
+        String link = "error";
+        if(start!=-1&&end!=-1)
+            link=sb.toString().substring(start+8,end);
+        return link;
+    }
 }
