@@ -71,4 +71,10 @@ so  x--->f(x)--->t[f(x)] --->t^t[f(x)]--->f^f(x)--->x
             (a think is that some function self are smallest and have no relativity,and call them coordinates function)
             so now we prove from any data x to any data y,it must has only one smallest function to realize
             for 15min thinking, I think it could not prove.
-            
+        
+        a function is that converts data x to data y
+        fn[...f2(f1(x))]=y
+        x=f1^(f2^(...fn^[y]))
+        
+        
+        
