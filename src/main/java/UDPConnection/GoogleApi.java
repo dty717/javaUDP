@@ -111,6 +111,7 @@ public class GoogleApi extends Thread{
         portA = pac.getPort();
         try {
             returnBuffer=getResultAmount(receive).getBytes();
+            System.out.println(new String(returnBuffer));
         } catch(Exception e) {
             e.printStackTrace();
         }
