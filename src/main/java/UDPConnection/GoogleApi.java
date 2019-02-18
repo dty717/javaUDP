@@ -71,7 +71,6 @@ public class GoogleApi extends Thread{
         for(int i=0;i<tem.length;i++){
             reciveBuffer[reciveBufferIndex++]=tem[i];
         }
-        
     }
     public void send(byte[]bits,InetAddress address,int port )throws IOException{
         DatagramPacket packet;
@@ -111,6 +110,7 @@ public class GoogleApi extends Thread{
         } catch(Exception e) {
             e.printStackTrace();
         }
+        return new byte[]{0x30};
     }
 
     private static String getResultAmount(String query) throws IOException {
