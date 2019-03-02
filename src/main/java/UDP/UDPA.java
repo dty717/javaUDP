@@ -13,9 +13,17 @@ import java.nio.charset.StandardCharsets;
 import java.io.InputStream;
 import java.io.BufferedReader;
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
+
 
 public class UDPA {
+    //id -simpDestination
+    public static final Map<String, HttpExchange> users=new ConcurrentHashMap();
+    
+    private static final Object sessionLock = new Object();
 
+    
     public final static int bandWidth=256;
 
     private DatagramSocket socket;
@@ -108,49 +116,57 @@ public class UDPA {
         body = stringBuilder.toString();
         return body;
     }
+    
     private static void handleRequest(HttpExchange exchange)  {
         try{
-        URI requestURI = exchange.getRequestURI();
-        String url = requestURI.toString();//URLDecoder.decode(,"UTF-8");
-        //     if(url.length()<30)
-        //       System.out.println(url);
-        //     else{
-        //       System.out.println(url.substring(0,30));
-        //     }
-        String content=specialURL(url);
-        byte[]send_content;
-        if(content==null){
-        //getRequestMethod()
-        //System.out.println();
-        if(exchange.getRequestMethod().equals("POST")){
-            url+="\r\n"+getBody(exchange.getRequestBody());
-        }
-        try {
-            DatagramPacket test_packet
-                = new DatagramPacket(url.getBytes("UTF-8"), url.getBytes("UTF-8").length<400?url.getBytes("UTF-8").length:400, test_address, test_port);
-            test_socket.send(test_packet);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        UDPa.sendEcho(wrap(url));
-        int id=idTask;
-        int j=0;
-        while(contain[id]==null&&j<10000){
-            j++;
-        }
-        if(j>=1000){
-            return;
-        }
-        send_content=contain[id];
-        contain[id]=null;
-        }else{
-            send_content=content.getBytes("UTF-8");
-        }
-        exchange.sendResponseHeaders(200, send_content.length);//response code and length
-      
-        OutputStream os = exchange.getResponseBody();
-        os.write(send_content);
-        os.close();
+            URI requestURI = exchange.getRequestURI();
+            String url = requestURI.toString();//URLDecoder.decode(,"UTF-8");
+            //     if(url.length()<30)
+            //       System.out.println(url);
+            //     else{
+            //       System.out.println(url.substring(0,30));
+            //     }
+            System.out.println("Hello World");
+            String content=specialURL(url);
+            byte[]send_content;
+            if(content==null){
+                //getRequestMethod()
+                //System.out.println();
+                if(exchange.getRequestMethod().equals("POST")){
+                    url+="\r\n"+getBody(exchange.getRequestBody());
+                }
+                try {
+                    DatagramPacket test_packet
+                        = new DatagramPacket(url.getBytes("UTF-8"), url.getBytes("UTF-8").length<400?url.getBytes("UTF-8").length:400, test_address, test_port);
+                    test_socket.send(test_packet);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                UDPa.sendEcho(wrap(url));
+                Object var1 = sessionLock;
+                synchronized(sessionLock) {
+                    users.put("test",exchange);
+                }
+                System.out.println("Hello World");
+                /*int id=idTask;
+                int j=0;
+                while(contain[id]==null&&j<10000){
+                    j++;
+                }
+                if(j>=1000){
+                    return;
+                }
+                send_content=contain[id];
+                contain[id]=null;*/
+            }else{
+                send_content=content.getBytes("UTF-8");
+            }
+            /*exchange.sendResponseHeaders(200, send_content.length);//response code and length
+          
+            OutputStream os = exchange.getResponseBody();
+            os.write(send_content);
+            os.close();*/
+            
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -277,9 +293,18 @@ public class UDPA {
                 = new DatagramPacket(buf, buf.length, address, 17000);
         try {
             send(buf);
+            HttpExchange exchange=users.get("test");
+            byte[] send_content="Hello World".getBytes();
+            exchange.sendResponseHeaders(200, send_content.length);//response code and length
+          
+            OutputStream os = exchange.getResponseBody();
+            os.write(send_content);
+            os.close();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         
         try {
             receive(packet);
